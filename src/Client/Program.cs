@@ -9,7 +9,7 @@ namespace Client
     {
         public static void Main()
         {
-            var connectionFactory = new ConnectionFactory() { HostName = "10.5.5.224" };
+            var connectionFactory = new ConnectionFactory() { HostName = "localhost" };
 
             using (var connection = connectionFactory.CreateConnection())
             {

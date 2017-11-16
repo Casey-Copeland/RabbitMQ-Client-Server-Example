@@ -8,7 +8,7 @@ namespace Server
     {
         public static void Main()
         {
-            var factory = new ConnectionFactory() { HostName = "10.5.5.224" };
+            var factory = new ConnectionFactory() { HostName = "localhost" };
 
             using (var connection = factory.CreateConnection())
             {
