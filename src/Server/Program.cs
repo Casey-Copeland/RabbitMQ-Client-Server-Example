@@ -1,4 +1,6 @@
-﻿using RabbitMQ.Client;
+﻿using Newtonsoft.Json;
+using RabbitMQ.Client;
+using Shared;
 using System;
 using System.Text;
 
@@ -16,15 +18,16 @@ namespace Server
                 {
                     channel.ExchangeDeclare(exchange: "alaska", type: "direct");
 
-                    string message = "Hello from Texas!";
-                    var messageBytes = Encoding.UTF8.GetBytes(message);
+                    var helloMessage = new HelloMessage { Message = "Hello from Texas!" };
+                    var messageJsonString = JsonConvert.SerializeObject(helloMessage);
+                    var messageBytes = Encoding.UTF8.GetBytes(messageJsonString);
 
                     channel.BasicPublish(exchange: "alaska",
                                          routingKey: "",
                                          basicProperties: null,
                                          body: messageBytes);
 
-                    Console.WriteLine($"Sent message: {message}");
+                    Console.WriteLine($"Sent message: {helloMessage.Message}");
                 }
             }
 

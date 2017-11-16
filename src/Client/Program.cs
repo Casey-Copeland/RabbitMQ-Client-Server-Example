@@ -1,5 +1,7 @@
-﻿using RabbitMQ.Client;
+﻿using Newtonsoft.Json;
+using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using Shared;
 using System;
 using System.Text;
 
@@ -28,9 +30,10 @@ namespace Client
                     consumer.Received += (sender, eventArgs) =>
                     {
                         var messageBytes = eventArgs.Body;
-                        var message = Encoding.UTF8.GetString(messageBytes);
+                        var messageJsonString = Encoding.UTF8.GetString(messageBytes);
+                        var helloMessage = JsonConvert.DeserializeObject<HelloMessage>(messageJsonString);
 
-                        Console.WriteLine($"Received message: {message}");
+                        Console.WriteLine($"Received message: {helloMessage.Message}");
 
                         channel.BasicAck(deliveryTag: eventArgs.DeliveryTag, multiple: false);
                     };
